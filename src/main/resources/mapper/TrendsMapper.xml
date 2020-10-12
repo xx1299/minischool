@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.s1mple.minischool.dao.TrendsMapper" >
+  <resultMap id="BaseResultMap" type="com.s1mple.minischool.domain.po.Trends" >
+    <id column="trends_id" property="trends_id" />
+    <result column="title" property="title"/>
+    <result column="realeaseSchool" property="realeaseSchool"/>
+    <result column="content" property="content"/>
+    <result column="realeaseTime" property="realeaseTime"/>
+    <association property="user" javaType="com.s1mple.minischool.domain.po.User">
+      <id column="user_id" property="user_id" />
+      <result column="openid" property="openid"/>
+      <result column="session_key" property="session_key"/>
+      <result column="avatar_url" property="avatarUrl"/>
+      <result column="nick_name" property="nickName"/>
+      <result column="city" property="city"/>
+      <result column="last_login_time" property="lastLoginTime"/>
+    </association>
+  </resultMap>
+  <insert id="insertImg">
+    insert into trendsimg(tid,imgUrl)
+    values (#{tid},#{imgUrl})
+  </insert>
+  <insert id="insertTrends">
+    insert into trends(trends_id,realeaseTime,content,user_id,realeaseSchool)
+    values (#{trends_id},#{realeaseTime},#{content},#{user_id},#{realeaseSchool})
+  </insert>
+    <delete id="deleteImgByTid">
+      delete from trendsimg
+      where tid = #{tid}
+    </delete>
+    <select id="selectTrendsPage" resultMap="BaseResultMap">
+    select trends_id, title, realeaseSchool, content
+    , realeaseTime, u.user_id, openid, session_key
+    , avatar_url, nick_name, city, last_login_time
+     from `user` as u ,trends as t
+     where u.user_id = t.user_id
+  </select>
+
+  <select id="selectTrendsByTid" resultMap="BaseResultMap">
+    select trends_id, title, realeaseSchool, content
+    , realeaseTime, u.user_id, openid, session_key
+    , avatar_url, nick_name, city, last_login_time
+     from `user` as u ,trends as t
+     where u.user_id = t.user_id and trends_id = #{tid}
+  </select>
+
+</mapper>
