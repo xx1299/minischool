@@ -3,7 +3,7 @@ package com.s1mple.minischool.web.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.s1mple.minischool.domain.po.Praise;
+import com.s1mple.minischool.domain.Praise;
 import com.s1mple.minischool.exception.CustomException;
 import com.s1mple.minischool.exception.ExceptionType;
 import com.s1mple.minischool.service.PraiseService;

@@ -2,7 +2,7 @@ package com.s1mple.minischool.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.s1mple.minischool.domain.Vo.ReviewVo;
-import com.s1mple.minischool.domain.po.Review;
+import com.s1mple.minischool.domain.Review;
 
 import java.util.List;
 

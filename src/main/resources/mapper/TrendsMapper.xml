@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.s1mple.minischool.dao.TrendsMapper" >
-  <resultMap id="BaseResultMap" type="com.s1mple.minischool.domain.po.Trends" >
+  <resultMap id="BaseResultMap" type="com.s1mple.minischool.domain.Trends" >
     <id column="trends_id" property="trends_id" />
     <result column="title" property="title"/>
     <result column="realeaseSchool" property="realeaseSchool"/>
     <result column="content" property="content"/>
     <result column="realeaseTime" property="realeaseTime"/>
-    <association property="user" javaType="com.s1mple.minischool.domain.po.User">
+    <association property="user" javaType="com.s1mple.minischool.domain.User">
       <id column="user_id" property="user_id" />
       <result column="openid" property="openid"/>
       <result column="session_key" property="session_key"/>

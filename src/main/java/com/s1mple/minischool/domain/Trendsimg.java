@@ -1,4 +1,4 @@
-package com.s1mple.minischool.domain.po;
+package com.s1mple.minischool.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;

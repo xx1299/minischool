@@ -2,7 +2,7 @@ package com.s1mple.minischool.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.s1mple.minischool.domain.po.Message;
+import com.s1mple.minischool.domain.Message;
 
 import javax.websocket.EncodeException;
 import javax.websocket.Encoder;

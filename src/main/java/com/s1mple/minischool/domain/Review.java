@@ -1,8 +1,7 @@
-package com.s1mple.minischool.domain.po;
+package com.s1mple.minischool.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,18 +14,21 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Trends {
+public class Review {
 
     @TableId
-    private Long trends_id;
+    private Long review_id;
 
-    private Date releaseTime;
+    private Long user_id;
+
+    private Long trends_id;
 
     private String content;
 
-    private String releaseSchool;
+    private Date reviewTime;
 
-    private Long user_id;
+    private Long superReviewId;
+
+    private Long broReviewId;
 
 }

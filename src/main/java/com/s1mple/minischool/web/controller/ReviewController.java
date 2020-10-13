@@ -1,7 +1,7 @@
 package com.s1mple.minischool.web.controller;
 
 import com.s1mple.minischool.domain.Vo.ReviewVo;
-import com.s1mple.minischool.domain.po.Review;
+import com.s1mple.minischool.domain.Review;
 import com.s1mple.minischool.service.ReviewService;
 import com.s1mple.minischool.service.UserService;
 import org.dozer.DozerBeanMapperBuilder;

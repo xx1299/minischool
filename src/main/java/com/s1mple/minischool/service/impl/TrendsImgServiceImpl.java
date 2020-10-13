@@ -2,7 +2,7 @@ package com.s1mple.minischool.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.s1mple.minischool.dao.TrendsImgMapper;
-import com.s1mple.minischool.domain.po.Trendsimg;
+import com.s1mple.minischool.domain.Trendsimg;
 import com.s1mple.minischool.service.TrendsImgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

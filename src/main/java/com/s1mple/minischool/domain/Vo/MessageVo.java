@@ -1,6 +1,7 @@
 package com.s1mple.minischool.domain.Vo;
 
-import com.s1mple.minischool.domain.po.User;
+import com.s1mple.minischool.domain.Message;
+import com.s1mple.minischool.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageVo {
+public class MessageVo{
 
     private Long message_id;
 
@@ -24,6 +25,7 @@ public class MessageVo {
 
     private String content;
 
+    private Integer noRevice;
 
 
 }

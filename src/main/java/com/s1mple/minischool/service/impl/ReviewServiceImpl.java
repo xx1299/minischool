@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.s1mple.minischool.dao.ReviewMapper;
 import com.s1mple.minischool.dao.UserMapper;
 import com.s1mple.minischool.domain.Vo.ReviewVo;
-import com.s1mple.minischool.domain.po.Review;
+import com.s1mple.minischool.domain.Review;
 import com.s1mple.minischool.service.ReviewService;
 import org.dozer.DozerBeanMapperBuilder;
 import org.dozer.Mapper;

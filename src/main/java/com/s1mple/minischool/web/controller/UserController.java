@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.s1mple.minischool.domain.AjxsResponse;
 import com.s1mple.minischool.domain.Vo.UserVo;
-import com.s1mple.minischool.domain.po.User;
+import com.s1mple.minischool.domain.User;
 import com.s1mple.minischool.service.UserService;
 import com.s1mple.minischool.utils.JwtUtils;
 import org.dozer.DozerBeanMapperBuilder;

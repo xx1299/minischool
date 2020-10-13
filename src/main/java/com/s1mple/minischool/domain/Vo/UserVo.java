@@ -1,6 +1,5 @@
 package com.s1mple.minischool.domain.Vo;
 
-import com.s1mple.minischool.domain.po.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

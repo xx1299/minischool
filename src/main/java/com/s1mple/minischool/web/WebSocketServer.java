@@ -1,8 +1,6 @@
 package com.s1mple.minischool.web;
 
-import com.s1mple.minischool.domain.po.Message;
-import com.s1mple.minischool.exception.CustomException;
-import com.s1mple.minischool.exception.ExceptionType;
+import com.s1mple.minischool.domain.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

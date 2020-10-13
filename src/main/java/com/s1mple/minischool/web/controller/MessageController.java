@@ -1,24 +1,18 @@
 package com.s1mple.minischool.web.controller;
 
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.s1mple.minischool.domain.Vo.MessageVo;
-import com.s1mple.minischool.domain.po.Message;
-import com.s1mple.minischool.domain.po.User;
+import com.s1mple.minischool.domain.Message;
 import com.s1mple.minischool.exception.CustomException;
 import com.s1mple.minischool.exception.ExceptionType;
 import com.s1mple.minischool.service.MessageService;
 import com.s1mple.minischool.service.UserService;
 import com.s1mple.minischool.web.WebSocketServer;
-import io.netty.util.internal.ObjectUtil;
-import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +20,7 @@ import javax.websocket.EncodeException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -59,13 +54,20 @@ public class MessageController {
     }
 
     @GetMapping("/messages/{reciveId}")
-    public List<MessageVo> notReviceMessage(@PathVariable("reciveId") Long reciveId , HttpServletRequest request){
+    @ResponseBody
+    public Map<Long, List<Message>> notReviceMessage(@PathVariable("reciveId") Long reciveId , HttpServletRequest request){
         Long user_id = (Long)request.getAttribute("user_id");
         if (ObjectUtils.isEmpty(userService.getById(reciveId))||ObjectUtils.isEmpty(reciveId)){
             throw new CustomException(ExceptionType.OTHER_ERROR,"未找到指定用户");
         }
-        List<MessageVo> messages= messageService.notReviceMessage(user_id);
-        return messages;
+        Map<Long, List<Message>> longListMap = messageService.notReviceMessage(user_id);
+        return longListMap;
+    }
+
+    @GetMapping("/notmessages/{user_id}")
+    public Map<Long, List<Message>> asd(@PathVariable("user_id") Long user_id){
+        Map<Long, List<Message>> longListMap = messageService.notReviceMessage(user_id);
+        return longListMap;
     }
 
     @RequestMapping("login")

@@ -1,7 +1,7 @@
 package com.s1mple.minischool.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.s1mple.minischool.domain.po.Trendsimg;
+import com.s1mple.minischool.domain.Trendsimg;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;

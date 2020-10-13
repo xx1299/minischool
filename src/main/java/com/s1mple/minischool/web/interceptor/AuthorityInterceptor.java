@@ -4,7 +4,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.s1mple.minischool.domain.AjxsResponse;
-import com.s1mple.minischool.domain.po.User;
+import com.s1mple.minischool.domain.User;
 import com.s1mple.minischool.exception.CustomException;
 import com.s1mple.minischool.exception.ExceptionType;
 import com.s1mple.minischool.service.UserService;
