@@ -7,12 +7,14 @@ import com.s1mple.minischool.domain.Praise;
 import com.s1mple.minischool.exception.CustomException;
 import com.s1mple.minischool.exception.ExceptionType;
 import com.s1mple.minischool.service.PraiseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
+@Slf4j
 public class PraiseController {
 
     @Autowired

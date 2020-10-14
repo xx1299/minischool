@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.s1mple.minischool.domain.*;
 import com.s1mple.minischool.domain.Vo.TrendsVo;
 import com.s1mple.minischool.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.dozer.DozerBeanMapperBuilder;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
+@Slf4j
 public class TrendsController {
 
 

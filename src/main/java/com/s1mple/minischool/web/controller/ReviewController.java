@@ -4,6 +4,7 @@ import com.s1mple.minischool.domain.Vo.ReviewVo;
 import com.s1mple.minischool.domain.Review;
 import com.s1mple.minischool.service.ReviewService;
 import com.s1mple.minischool.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.dozer.DozerBeanMapperBuilder;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class ReviewController {
 
     @Autowired

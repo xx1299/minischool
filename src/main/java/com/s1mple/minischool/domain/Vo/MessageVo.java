@@ -1,6 +1,7 @@
 package com.s1mple.minischool.domain.Vo;
 
-import com.s1mple.minischool.domain.Message;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.s1mple.minischool.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,8 +20,8 @@ public class MessageVo{
 
     private User sendUser;
 
-    private User reciveUser;
-
+    private User receiveUser;
+    @JsonSerialize(using = ToStringSerializer.class)
     private Date sendTime;
 
     private String content;

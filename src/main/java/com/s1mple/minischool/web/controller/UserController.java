@@ -9,6 +9,7 @@ import com.s1mple.minischool.domain.Vo.UserVo;
 import com.s1mple.minischool.domain.User;
 import com.s1mple.minischool.service.UserService;
 import com.s1mple.minischool.utils.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.dozer.DozerBeanMapperBuilder;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.sql.Date;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
