@@ -5,6 +5,8 @@ import com.s1mple.minischool.web.interceptor.CompleteInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -21,4 +23,5 @@ public class MVCConfig implements WebMvcConfigurer {
 //                .excludePathPatterns("/user/**","/trendsImgs","/trendsImg/**");
 //        registry.addInterceptor(new CompleteInterceptor()).addPathPatterns("/user/complete");
     }
+
 }

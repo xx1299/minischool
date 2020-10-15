@@ -13,6 +13,8 @@ import com.s1mple.minischool.service.UserService;
 import com.s1mple.minischool.web.WebSocketServer;
 import io.netty.util.internal.ObjectUtil;
 import io.netty.util.internal.StringUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,7 @@ public class MessageController {
      * @throws IOException
      * @throws EncodeException
      */
+    @ApiOperation("发送信息")
     @PutMapping("/sendMessage")
     public MessageVo sendMessage(@RequestParam("receiveId") Long receiveId, @RequestParam("content") String content, HttpServletRequest request) throws IOException, EncodeException {
         Long user_id = (Long)request.getAttribute("user_id");
@@ -73,6 +76,7 @@ public class MessageController {
      * @param request
      * @return
      */
+    @ApiOperation("获取与某个用户的聊天记录")
     @GetMapping("/messages/{chat_user_id}")
     public List<MessageVo> userChatRecord(@PathVariable("chat_user_id") Long chat_user_id , HttpServletRequest request){
         Long user_id = (Long)request.getAttribute("user_id");
@@ -88,8 +92,8 @@ public class MessageController {
      * @param request
      * @return 返回用户，与该用户最后一条消息，该用户未读消息数
      */
+    @ApiOperation("获取与每个用户最后一条聊天记录以及未读消息数")
     @GetMapping("/messages")
-    @ResponseBody
     public List<ChatRecordVo> getAllChatUserLastRecord(HttpServletRequest request){
         Long user_id = (Long)request.getAttribute("user_id");
         List<ChatRecordVo> messages= messageService.getAllChatUserLastRecord(user_id);
@@ -101,8 +105,8 @@ public class MessageController {
      * @param chat_user_id
      * @param request
      */
+    @ApiOperation("删除与某个用户的聊天记录")
     @DeleteMapping("/messages/{chat_user_id}")
-    @ResponseBody
     public void deleteMessage(@PathVariable("chat_user_id") Long chat_user_id , HttpServletRequest request){
         Long user_id = (Long)request.getAttribute("user_id");
         if (ObjectUtils.isEmpty(userService.getById(chat_user_id))||ObjectUtils.isEmpty(chat_user_id)){
@@ -116,6 +120,7 @@ public class MessageController {
      * @param request
      * @return
      */
+    @ApiOperation("获得总未读消息数")
     @GetMapping("/unRecieveCount")
     public Integer getunRecieveCount(HttpServletRequest request){
         Long user_id = (Long)request.getAttribute("user_id");

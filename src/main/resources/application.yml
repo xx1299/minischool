@@ -19,7 +19,7 @@ spring:
     password: 1299
 #logging:
 #  level:
-#    root: warn #指定系统默认日志级别为info 日志级别：trace<debug<info<warn<error<fatal
+#    root: trace #指定系统默认日志级别为info 日志级别：trace<debug<info<warn<error<fatal
 #    com.s1mple.minischool.dao: trace
 #  file:
 #    path: E:\logs #指定日志输出的目录，默认日志名为spring.log
