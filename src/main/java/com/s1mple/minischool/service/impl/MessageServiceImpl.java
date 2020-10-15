@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,9 +45,11 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
                 .orderByDesc(Message::getSendTime)
         );
         List<MessageVo> collect = messages.stream().map(message -> {
+            message.setState(RECEIVE);
             MessageVo messageVo = mapper.map(message, MessageVo.class);
             messageVo.setReceiveUser(userMapper.selectById(message.getReceive_id()));
             messageVo.setSendUser(userMapper.selectById(message.getSend_id()));
+            messageMapper.updateById(message);
             return messageVo;
         }).collect(Collectors.toList());
         return collect;
@@ -83,50 +84,42 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
                 .orderByDesc(Message::getSendTime)
         );
         List<ChatRecordVo> recordVo = new ArrayList<>();
-        messages.forEach(it->{
-            if (recordVo.isEmpty()){
-                ChatRecordVo build = ChatRecordVo.builder().chatUser(userMapper.selectById(it.getReceive_id())).lastMessage(it).build();
-                if (it.getState().equals(UN_RECEIVE)){
-                    build.setUnReciveCount(1);
-                }
-                recordVo.add(build);
-            }
+        Map<Long,Message> map = new HashMap<>();
+        messages.forEach(it -> {
             if (it.getSend_id().equals(user_id)){
-                recordVo.forEach(va->{
-                    if (it.getReceive_id().equals(va.getChatUser().getUser_id())){
-                        if (it.getState().equals(UN_RECEIVE)){
-                            va.setUnReciveCount(va.getUnReciveCount()+1);
-                        }
-                        if (!va.getLastMessage().getSendTime().before(it.getSendTime())){
-                            va.setLastMessage(it);
+                if (map.isEmpty()){
+                    map.put(it.getReceive_id(),it);
+                }else{
+                    if (map.containsKey(it.getReceive_id())){
+                        if (map.get(it.getReceive_id()).getSendTime().before(it.getSendTime())){
+                            map.put(it.getReceive_id(),it);
                         }
                     }else{
-                        ChatRecordVo build = ChatRecordVo.builder().chatUser(userMapper.selectById(it.getReceive_id())).lastMessage(it).build();
-                        if (it.getState().equals(UN_RECEIVE)){
-                            build.setUnReciveCount(1);
-                        }
-                        recordVo.add(build);
+                        map.put(it.getReceive_id(),it);
                     }
-                });
+                }
             }else{
-                recordVo.forEach(va->{
-                    if (it.getSend_id().equals(va.getChatUser().getUser_id())){
-                        if (it.getState().equals(UN_RECEIVE)){
-                            va.setUnReciveCount(va.getUnReciveCount()+1);
-                        }
-                        if (!va.getLastMessage().getSendTime().before(it.getSendTime())){
-                            va.setLastMessage(it);
+                if (map.isEmpty()){
+                    map.put(it.getSend_id(),it);
+                }else{
+                    if (map.containsKey(it.getSend_id())){
+                        if (map.get(it.getSend_id()).getSendTime().before(it.getSendTime())){
+                            map.put(it.getSend_id(),it);
                         }
                     }else{
-                        ChatRecordVo build = ChatRecordVo.builder().chatUser(userMapper.selectById(it.getSend_id())).lastMessage(it).build();
-                        if (it.getState().equals(UN_RECEIVE)){
-                            build.setUnReciveCount(1);
-                        }
-                        recordVo.add(build);
+                        map.put(it.getSend_id(),it);
                     }
-                });
+                }
             }
         });
+        Set<Long> longs = map.keySet();
+        longs.forEach(it->{
+            ChatRecordVo build = ChatRecordVo.builder().chatUser(userMapper.selectById(it)).lastMessage(map.get(it))
+                    .unReciveCount(messageMapper.selectCount(Wrappers.<Message>lambdaQuery().eq(Message::getReceive_id, user_id).eq(Message::getSend_id, it).eq(Message::getState, UN_RECEIVE)))
+                    .build();
+            recordVo.add(build);
+        });
+        System.out.println(map);
         return recordVo;
     }
 

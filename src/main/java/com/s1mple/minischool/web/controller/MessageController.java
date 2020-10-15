@@ -37,6 +37,15 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
+    /**
+     * 发送消息
+     * @param receiveId
+     * @param content
+     * @param request
+     * @return
+     * @throws IOException
+     * @throws EncodeException
+     */
     @PutMapping("/sendMessage")
     public MessageVo sendMessage(@RequestParam("receiveId") Long receiveId, @RequestParam("content") String content, HttpServletRequest request) throws IOException, EncodeException {
         Long user_id = (Long)request.getAttribute("user_id");
@@ -58,6 +67,12 @@ public class MessageController {
         return build1;
     }
 
+    /**
+     * 获取与某个用户的聊天记录
+     * @param chat_user_id
+     * @param request
+     * @return
+     */
     @GetMapping("/messages/{chat_user_id}")
     public List<MessageVo> userChatRecord(@PathVariable("chat_user_id") Long chat_user_id , HttpServletRequest request){
         Long user_id = (Long)request.getAttribute("user_id");
@@ -71,7 +86,7 @@ public class MessageController {
     /**
      * 消息界面数据
      * @param request
-     * @return
+     * @return 返回用户，与该用户最后一条消息，该用户未读消息数
      */
     @GetMapping("/messages")
     @ResponseBody
@@ -81,6 +96,11 @@ public class MessageController {
         return messages;
     }
 
+    /**
+     * 删除与某用户聊天记录
+     * @param chat_user_id
+     * @param request
+     */
     @DeleteMapping("/messages/{chat_user_id}")
     @ResponseBody
     public void deleteMessage(@PathVariable("chat_user_id") Long chat_user_id , HttpServletRequest request){
@@ -91,6 +111,18 @@ public class MessageController {
         messageService.deleteChatRecord(user_id,chat_user_id);
     }
 
+    /**
+     * 获得未读信息条数
+     * @param request
+     * @return
+     */
+    @GetMapping("/unRecieveCount")
+    public Integer getunRecieveCount(HttpServletRequest request){
+        Long user_id = (Long)request.getAttribute("user_id");
+        Integer integer = messageService.notReviceMessageCount(user_id);
+        log.info("用户"+user_id+"未读信息"+integer+"条");
+        return integer;
+    }
 
     @GetMapping("/test/{user_id}")
     public List<ChatRecordVo> getAllChatUserLastRecord(@PathVariable("user_id") Long user_id){
@@ -98,6 +130,8 @@ public class MessageController {
         System.out.println(messages);
         return messages;
     }
+
+
 
 
 
