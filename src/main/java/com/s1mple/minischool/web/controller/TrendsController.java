@@ -5,6 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.s1mple.minischool.domain.*;
 import com.s1mple.minischool.domain.Vo.TrendsVo;
 import com.s1mple.minischool.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.DozerBeanMapperBuilder;
 import org.dozer.Mapper;
@@ -21,6 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
+@Api(tags = "动态模块", value = "获取动态，获取当前用户动态，获取单个动态，删除动态，上传图片，添加动态")
 public class TrendsController {
 
 
@@ -42,11 +47,10 @@ public class TrendsController {
     private Mapper mapper = DozerBeanMapperBuilder.buildDefault();
 
 
-    /**
-     * 根据当前分页，获取动态数据
-     * @param currentPage 当前分页数
-     * @return 动态数据
-     */
+    @ApiOperation("分页获取动态数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "currentPage",value = "当前页数",required = true,paramType = "form",dataType = "int"),
+    })
     @GetMapping("/trendsPage")
     public List<TrendsVo> getTrendsPage(@RequestParam("currentPage") int currentPage,HttpServletRequest request){
         List<Trends> trendsPage = trendsService.page(new Page<Trends>(currentPage,10),Wrappers.<Trends>lambdaQuery().orderByDesc(Trends::getReleaseTime)).getRecords();
@@ -62,6 +66,7 @@ public class TrendsController {
         return trendsVoList;
     }
 
+    @ApiOperation("获取当前用户动态")
     @GetMapping("/trends")
     public List<TrendsVo> getTrendsByUid(HttpServletRequest request){
         List<Trends> trendsPage = trendsService.list(Wrappers.<Trends>lambdaQuery().eq(Trends::getUser_id,(Long)request.getAttribute("user_id")).orderByDesc(Trends::getReleaseTime));
@@ -75,11 +80,10 @@ public class TrendsController {
         return trendsVoList;
     }
 
-    /**
-     * 根据id获取单个动态数据
-     * @param trends_id 动态id
-     * @return 动态数据
-     */
+    @ApiOperation("获取某个动态数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "trends_id",value = "动态Id",required = true,paramType = "path",dataType = "Long"),
+    })
     @GetMapping("/trends/{trends_id}")
     public TrendsVo getTrends(@PathVariable("trends_id") Long trends_id){
         Trends trendsPo = trendsService.getOne(Wrappers.<Trends>lambdaQuery().eq(Trends::getTrends_id,trends_id));
@@ -92,13 +96,10 @@ public class TrendsController {
         return trendsVo;
     }
 
-    /**
-     * 传入动态数据与图片进行添加
-     * @param trendsVo 动态实体
-     * @param request 请求对象
-     * @return
-     * @throws IOException
-     */
+    @ApiOperation("添加动态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "trendsVo",value = "动态对象",required = true,paramType = "body",dataType = "TrendVo"),
+    })
     @PostMapping("/trends")
     public TrendsVo addTrends(@RequestBody TrendsVo trendsVo, HttpServletRequest request) throws IOException {
         Long user_id = (Long)request.getAttribute("user_id");
@@ -106,18 +107,20 @@ public class TrendsController {
         return trendsService.insertTrends(trendsVo);
     }
 
-    /**
-     * 根据id删除动态
-     * @param trends_id 动态id
-     * @return
-     * @throws IOException
-     */
+    @ApiOperation("删除动态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "trends_id",value = "动态Id",required = true,paramType = "path",dataType = "Long"),
+    })
     @DeleteMapping("/trends/{trends_id}")
     public void test(@PathVariable("trends_id") Long trends_id) throws IOException {
         trendsService.deleteTrends(trends_id);
         return ;
     }
 
+    @ApiOperation("上传图片")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "file",value = "图片对象",required = true,paramType = "form",dataType = "MultipartFile"),
+    })
     @PostMapping(value = "/trendsImgs" , produces= "application/json;charset=utf-8")
     public String addImg(@RequestParam("file") MultipartFile file,HttpServletRequest request) throws IOException {
         String aLong = trendsImgService.insertImg(file,request).toString();

@@ -9,6 +9,10 @@ import com.s1mple.minischool.domain.Vo.UserVo;
 import com.s1mple.minischool.domain.User;
 import com.s1mple.minischool.service.UserService;
 import com.s1mple.minischool.utils.JwtUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.DozerBeanMapperBuilder;
 import org.dozer.Mapper;
@@ -23,6 +27,7 @@ import java.sql.Date;
 @RestController
 @RequestMapping("/user")
 @Slf4j
+@Api(tags = "用户模块", value = "登录，完善资料，验证token")
 public class UserController {
 
     @Autowired
@@ -33,6 +38,10 @@ public class UserController {
 
     private Mapper mapper = DozerBeanMapperBuilder.buildDefault();
 
+    @ApiOperation("登录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "code",value = "微信code",required = true,paramType = "body",dataType = "String"),
+    })
     @PostMapping("/login")
     public UserVo login(@RequestBody String code) throws JsonProcessingException {
         String forObject = restTemplate
@@ -55,16 +64,21 @@ public class UserController {
         return userVo;
     }
 
+    @ApiOperation("完善资料")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user",value = "用户对象",required = true,paramType = "body",dataType = "User"),
+    })
     @PostMapping("/complete")
-    public AjxsResponse userComplete(@RequestBody User user,HttpServletRequest request){
+    public String userComplete(@RequestBody User user,HttpServletRequest request){
         user.setUser_id((Long)request.getAttribute("user_id"));
         user.setOpenid((String)request.getAttribute("openid"));
         user.setSession_key((String)request.getAttribute("session_key"));
         user.setState(true);
         userService.updateById(user);
-        return AjxsResponse.success(JwtUtils.createToken(user));
+        return JwtUtils.createToken(user);
     }
 
+    @ApiOperation("验证token")
     @GetMapping("/check")
     public AjxsResponse checkToken(HttpServletRequest request){
         String token = request.getHeader("token");

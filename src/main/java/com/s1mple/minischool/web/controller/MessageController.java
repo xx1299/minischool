@@ -13,8 +13,7 @@ import com.s1mple.minischool.service.UserService;
 import com.s1mple.minischool.web.WebSocketServer;
 import io.netty.util.internal.ObjectUtil;
 import io.netty.util.internal.StringUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +30,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@Api(tags = "消息模块", value = "发送信息，获得未读消息数，消息界面需要数据，获取消息记录，删除消息记录")
 public class MessageController {
 
     @Autowired
@@ -39,17 +39,12 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
-    /**
-     * 发送消息
-     * @param receiveId
-     * @param content
-     * @param request
-     * @return
-     * @throws IOException
-     * @throws EncodeException
-     */
     @ApiOperation("发送信息")
-    @PutMapping("/sendMessage")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "receiveId",value = "接收者Id",required = true,paramType = "body",dataType = "Long"),
+            @ApiImplicitParam(name = "content",value = "消息内容",required = true,paramType = "body",dataType = "String")
+    })
+    @PostMapping("/sendMessage")
     public MessageVo sendMessage(@RequestParam("receiveId") Long receiveId, @RequestParam("content") String content, HttpServletRequest request) throws IOException, EncodeException {
         Long user_id = (Long)request.getAttribute("user_id");
         if (user_id.equals(receiveId)){
@@ -70,13 +65,11 @@ public class MessageController {
         return build1;
     }
 
-    /**
-     * 获取与某个用户的聊天记录
-     * @param chat_user_id
-     * @param request
-     * @return
-     */
+
     @ApiOperation("获取与某个用户的聊天记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "chat_user_id",value = "聊天对象Id",required = true,paramType = "path",dataType = "Long"),
+    })
     @GetMapping("/messages/{chat_user_id}")
     public List<MessageVo> userChatRecord(@PathVariable("chat_user_id") Long chat_user_id , HttpServletRequest request){
         Long user_id = (Long)request.getAttribute("user_id");
@@ -87,11 +80,7 @@ public class MessageController {
         return messages;
     }
 
-    /**
-     * 消息界面数据
-     * @param request
-     * @return 返回用户，与该用户最后一条消息，该用户未读消息数
-     */
+
     @ApiOperation("获取与每个用户最后一条聊天记录以及未读消息数")
     @GetMapping("/messages")
     public List<ChatRecordVo> getAllChatUserLastRecord(HttpServletRequest request){
@@ -100,12 +89,11 @@ public class MessageController {
         return messages;
     }
 
-    /**
-     * 删除与某用户聊天记录
-     * @param chat_user_id
-     * @param request
-     */
+
     @ApiOperation("删除与某个用户的聊天记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "chat_user_id",value = "聊天对象Id",required = true,paramType = "path",dataType = "Long"),
+    })
     @DeleteMapping("/messages/{chat_user_id}")
     public void deleteMessage(@PathVariable("chat_user_id") Long chat_user_id , HttpServletRequest request){
         Long user_id = (Long)request.getAttribute("user_id");
@@ -115,11 +103,7 @@ public class MessageController {
         messageService.deleteChatRecord(user_id,chat_user_id);
     }
 
-    /**
-     * 获得未读信息条数
-     * @param request
-     * @return
-     */
+
     @ApiOperation("获得总未读消息数")
     @GetMapping("/unRecieveCount")
     public Integer getunRecieveCount(HttpServletRequest request){

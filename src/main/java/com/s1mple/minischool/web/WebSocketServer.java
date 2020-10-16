@@ -41,6 +41,7 @@ public class WebSocketServer {
         this.session = session;
         SessionSet.add(this);
         int cnt = OnlineCount.incrementAndGet(); // 在线数加1
+        log.info("有连接加入，user_id：{}", this.user_id);
         log.info("有连接加入，当前连接数为：{}", cnt);
         SendMessage(session, "连接成功");
     }
@@ -51,6 +52,7 @@ public class WebSocketServer {
     @OnClose
     public void onClose(Session session) {
         SessionSet.remove(this);
+        log.info("有连接关闭，user_id：{}", this.user_id);
         int cnt = OnlineCount.decrementAndGet();
         log.info("有连接关闭，当前连接数为：{}", cnt);
     }

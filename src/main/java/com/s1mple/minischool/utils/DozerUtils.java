@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DozerUtils {
 
-    static Mapper mapper = DozerBeanMapperBuilder.buildDefault();
+    private static Mapper mapper = DozerBeanMapperBuilder.buildDefault();
 
     public static <T> List<T> mapList(Collection sourceList, Class<T> destinationClass){
         List destinationList = new ArrayList();
@@ -20,6 +20,11 @@ public class DozerUtils {
             destinationList.add(destinationObject);
         }
         return destinationList;
+    }
+
+    public static <T> T map(Object object, Class<T> destinationClass){
+        T map = mapper.map(object, destinationClass);
+        return map;
     }
 
 }
