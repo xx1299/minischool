@@ -8,6 +8,7 @@ import com.s1mple.minischool.domain.AjxsResponse;
 import com.s1mple.minischool.domain.Vo.UserVo;
 import com.s1mple.minischool.domain.User;
 import com.s1mple.minischool.service.UserService;
+import com.s1mple.minischool.utils.Base64Utils;
 import com.s1mple.minischool.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 
 @RestController
@@ -43,7 +45,7 @@ public class UserController {
             @ApiImplicitParam(name = "code",value = "微信code",required = true,paramType = "body",dataType = "String"),
     })
     @PostMapping("/login")
-    public UserVo login(@RequestBody String code) throws JsonProcessingException {
+    public UserVo login(@RequestBody String code) throws JsonProcessingException, UnsupportedEncodingException {
         String forObject = restTemplate
                 .getForObject("https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={SECRET}&js_code={JSCODE}&grant_type={authorization_code}"
                 , String.class, "wx0516e7a54319bf70"
@@ -61,6 +63,7 @@ public class UserController {
         userService.updateById(user);
         UserVo userVo = mapper.map(user,UserVo.class);
         userVo.setToken(JwtUtils.createToken(user));
+        userVo.setNickName(Base64Utils.decode(user.getNickName()));
         return userVo;
     }
 
@@ -69,10 +72,11 @@ public class UserController {
             @ApiImplicitParam(name = "user",value = "用户对象",required = true,paramType = "body",dataType = "User"),
     })
     @PostMapping("/complete")
-    public String userComplete(@RequestBody User user,HttpServletRequest request){
+    public String userComplete(@RequestBody User user,HttpServletRequest request) throws UnsupportedEncodingException, JsonProcessingException {
         user.setUser_id((Long)request.getAttribute("user_id"));
         user.setOpenid((String)request.getAttribute("openid"));
         user.setSession_key((String)request.getAttribute("session_key"));
+        user.setNickName(Base64Utils.encode(user.getNickName()));
         user.setState(true);
         userService.updateById(user);
         return JwtUtils.createToken(user);

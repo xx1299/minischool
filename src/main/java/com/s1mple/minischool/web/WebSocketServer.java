@@ -1,6 +1,8 @@
 package com.s1mple.minischool.web;
 
+import com.s1mple.minischool.domain.AjxsResponse;
 import com.s1mple.minischool.domain.Message;
+import com.s1mple.minischool.domain.Vo.MessageVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -86,9 +88,9 @@ public class WebSocketServer {
 
     }
 
-    private static void SendOne(Session session, Message message) throws IOException, EncodeException {
+    private static void SendOne(Session session, Object object) throws IOException, EncodeException {
 
-        session.getBasicRemote().sendObject(message);
+        session.getBasicRemote().sendObject(object);
 
     }
 
@@ -97,18 +99,14 @@ public class WebSocketServer {
      * @param message  消息
      */
     public static void BroadCastInfo(String message) throws IOException {
-//        for (Session session : SessionSet) {
-//            if(session.isOpen()){
-//                SendMessage(session, message);
-//            }
-//        }
+        for (WebSocketServer webSocketServer : SessionSet) {
+            if(webSocketServer.getSession().isOpen()){
+                SendMessage(webSocketServer.getSession(), message);
+            }
+        }
     }
 
-    /**
-     * 指定Session发送消息
-     * @param sessionId sessionId
-     * @param message  消息
-     */
+
     public static void SendMessage(Long reciveId,String message) throws IOException {
         WebSocketServer server = null;
         for (WebSocketServer s : SessionSet) {
@@ -124,7 +122,7 @@ public class WebSocketServer {
         }
     }
 
-    public static Boolean SendOne(Long reciveId, Message message) throws IOException, EncodeException {
+    public static Boolean SendOne(Long reciveId, Object object) throws IOException, EncodeException {
         WebSocketServer server = null;
         for (WebSocketServer s : SessionSet) {
             System.out.println(s.getUser_id());
@@ -134,8 +132,8 @@ public class WebSocketServer {
             }
         }
         if(server!=null){
-            SendOne(server.getSession(), message);
-            log.info("消息'"+message+"'发送成功");
+            SendOne(server.getSession(), AjxsResponse.success(object));
+            log.info("消息'"+object+"'发送成功");
             return true;
         } else{
             return false;

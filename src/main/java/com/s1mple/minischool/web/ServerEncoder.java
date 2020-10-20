@@ -8,13 +8,13 @@ import javax.websocket.EncodeException;
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
-public class ServerEncoder implements Encoder.Text<Message> {
+public class ServerEncoder implements Encoder.Text<Object> {
     @Override
-    public String encode(Message message) throws EncodeException {
+    public String encode(Object object) throws EncodeException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.writeValueAsString(message);
+            return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             return null;
         }

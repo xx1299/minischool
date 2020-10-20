@@ -20,7 +20,7 @@ public class MVCConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(getAuthorityInterceptor()).addPathPatterns("/**")
-//                .excludePathPatterns("/user/**","/trendsImgs","/trendsImg/**");
+//                .excludePathPatterns("/user/**","/trendsImgs","/trendsImg/**","/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
 //        registry.addInterceptor(new CompleteInterceptor()).addPathPatterns("/user/complete");
     }
 

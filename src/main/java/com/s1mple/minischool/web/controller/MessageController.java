@@ -4,12 +4,14 @@ package com.s1mple.minischool.web.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.s1mple.minischool.domain.Message;
+import com.s1mple.minischool.domain.User;
 import com.s1mple.minischool.domain.Vo.ChatRecordVo;
 import com.s1mple.minischool.domain.Vo.MessageVo;
 import com.s1mple.minischool.exception.CustomException;
 import com.s1mple.minischool.exception.ExceptionType;
 import com.s1mple.minischool.service.MessageService;
 import com.s1mple.minischool.service.UserService;
+import com.s1mple.minischool.utils.DozerUtils;
 import com.s1mple.minischool.web.WebSocketServer;
 import io.netty.util.internal.ObjectUtil;
 import io.netty.util.internal.StringUtil;
@@ -27,6 +29,7 @@ import javax.websocket.EncodeException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -50,19 +53,22 @@ public class MessageController {
         if (user_id.equals(receiveId)){
             throw new CustomException(ExceptionType.OTHER_ERROR,"不能向自己发送信息");
         }
-
-        Message build = Message.builder().content(content).receive_id(receiveId).send_id(user_id).sendTime(new Date()).state(0).build();
        if (ObjectUtils.isEmpty(userService.getById(receiveId))||ObjectUtils.isEmpty(receiveId)){
            throw new CustomException(ExceptionType.OTHER_ERROR,"未找到指定用户");
        }
-//       Message build = Message.builder().content(message).receive_id(reciveId).send_id(1310429363715567618L).sendTime(new Date()).state(0).build();
-       if (!WebSocketServer.SendOne(receiveId,build)){
+        Message build = Message.builder().content(content).receive_id(receiveId).send_id(user_id).sendTime(new Date()).state(0).build();
+        MessageVo messageVo = Optional.ofNullable(build).map(it -> {
+            MessageVo map = DozerUtils.map(build, MessageVo.class);
+            map.setSendUser(userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUser_id, build.getSend_id())));
+            map.setReceiveUser(userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUser_id, build.getReceive_id())));
+            return map;
+        }).get();
+        if (!WebSocketServer.SendOne(receiveId,messageVo)){
            log.info("用户"+receiveId+"不在线，将消息'"+content+"'存入数据库置为未接收状态");
-           build.setState(1);;
+           build.setState(1);
        }
         messageService.save(build);
-        MessageVo build1 = MessageVo.builder().content(content).receiveUser(userService.getById(receiveId)).sendUser(userService.getById(user_id)).sendTime(new Date()).build();
-        return build1;
+        return messageVo;
     }
 
 
