@@ -1,0 +1,41 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.101.142.65:3306/minischool?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1299
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:SS
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/static,classpath:/resources/,file:${web.upload-path}
+  servlet:
+    multipart:
+      max-file-size: 10240000
+  redis:
+    host: 47.101.142.65
+    port: 6379
+    password: 1299
+#logging:
+#  level:
+#    root: trace #指定系统默认日志级别为info 日志级别：trace<debug<info<warn<error<fatal
+#    com.s1mple.minischool.dao: trace
+#  file:
+#    path: E:\logs #指定日志输出的目录，默认日志名为spring.log
+#    name: E:\logs\minischool.log #配置日志输出的位置，有该配置后，logging.file.path配置失效
+#    max-size: 10MB #设置一个日志文件的最大大小
+#    max-history: 10 #设置保存时间，单位为天
+#  pattern:
+#    console: '%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{10}) - %cyan(%msg%n)' #输出在控制台中的格式
+#    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger : %msg%n' #输出在文件中的格式
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+  type-aliases-package: com.s1mple.minischool.domain
+  mapper-locations: classpath:/mapper/**.xml
+logging:
+  level:
+    com.s1mple.minischool.dao: trace
+web:
+  upload-path: E:/java/upload/
