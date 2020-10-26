@@ -49,7 +49,6 @@ public class TrendsServiceImpl extends ServiceImpl<TrendsMapper, Trends> impleme
         trendsPo.setUser_id(trendsVo.getUser().getUser_id());
         trendsPo.setReleaseTime(new Date(System.currentTimeMillis()));
         trendsMapper.insert(trendsPo);
-        System.out.println(trendsVo);
         List<Trendsimg> imgs = trendsVo.getTrendsimg().stream()
                 .map(img -> Trendsimg.builder().img_id(img.getImg_id()).tid(trendsPo.getTrends_id()).build())
                 .collect(Collectors.toList());

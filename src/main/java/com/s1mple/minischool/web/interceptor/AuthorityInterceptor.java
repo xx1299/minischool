@@ -39,13 +39,11 @@ public class AuthorityInterceptor implements HandlerInterceptor {
         }
         DecodedJWT claims = JwtUtils.getClaims(token);
         Long userId = claims.getClaim("userId").asLong();
-//        System.out.println("userId"+userId);
         User user = userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUser_id,userId));
         if (StringUtils.isEmpty(user)){
             returnJson(response,"不存在此用户");
             return false;
         }
-//        System.out.println(user);
         if (!user.getOpenid().equals(claims.getClaim("openid").asString())
                 ||!user.getSession_key().equals(claims.getClaim("sessionKey").asString())){
             returnJson(response,"凭证不正确");

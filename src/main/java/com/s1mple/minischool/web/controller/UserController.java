@@ -92,7 +92,6 @@ public class UserController {
     @GetMapping("/check")
     public AjxsResponse checkToken(HttpServletRequest request){
         String token = request.getHeader("token");
-        System.out.println(token);
         if (StringUtils.isEmpty(token)){
             return AjxsResponse.success("请登陆",false);
         }

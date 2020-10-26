@@ -119,7 +119,6 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
                     .build();
             recordVo.add(build);
         });
-        System.out.println(map);
         return recordVo;
     }
 

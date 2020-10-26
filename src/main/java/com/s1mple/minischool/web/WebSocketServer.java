@@ -125,7 +125,6 @@ public class WebSocketServer {
     public static Boolean SendOne(Long reciveId, Object object) throws IOException, EncodeException {
         WebSocketServer server = null;
         for (WebSocketServer s : SessionSet) {
-            System.out.println(s.getUser_id());
             if(s.getUser_id().equals(reciveId)){
                 server = s;
                 break;

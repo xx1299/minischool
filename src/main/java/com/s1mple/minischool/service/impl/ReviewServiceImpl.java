@@ -60,11 +60,9 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     public ReviewVo getReviewVo(Review review) {
         ReviewVo reviewVo = mapper.map(review, ReviewVo.class);
         reviewVo.setUser(userMapper.selectById(review.getUser_id()));
-        System.out.println(reviewVo);
         if (!ObjectUtils.isEmpty(review.getBroReviewId())){
             reviewVo.setBroReview(getReviewVo(reviewMapper.selectById(review.getBroReviewId())));
         }
-        System.out.println(reviewVo);
         return reviewVo;
     }
 }

@@ -122,7 +122,6 @@ public class MessageController {
     @GetMapping("/test/{user_id}")
     public List<ChatRecordVo> getAllChatUserLastRecord(@PathVariable("user_id") Long user_id){
         List<ChatRecordVo> messages= messageService.getAllChatUserLastRecord(user_id);
-        System.out.println(messages);
         return messages;
     }
 

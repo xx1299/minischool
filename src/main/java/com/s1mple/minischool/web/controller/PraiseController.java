@@ -31,7 +31,6 @@ public class PraiseController {
     })
     @PostMapping("/praises/{trends_id}")
     public Praise praise(@PathVariable("trends_id") Long trends_id, HttpServletRequest request){
-        System.out.println(trends_id);
         Long user_id = (Long)request.getAttribute("user_id");
         Praise praise = Praise.builder().trends_id(trends_id).user_id(user_id).build();
         if (ObjectUtils.isEmpty(praiseService.getOne(Wrappers.<Praise>lambdaQuery().eq(Praise::getTrends_id,trends_id).eq(Praise::getUser_id,user_id)))){
