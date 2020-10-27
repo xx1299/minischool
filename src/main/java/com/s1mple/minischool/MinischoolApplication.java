@@ -8,8 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.s1mple.minischool.*","com.s1mple.sys.*"} )
-@MapperScan(basePackages = {"com.s1mple.minischool.dao","com.s1mple.sys.dao"})
+@ComponentScan(basePackages = {"com.s1mple.minischool.*" })
+@MapperScan(basePackages = {"com.s1mple.minischool.dao"})
 public class MinischoolApplication {
 
     public static void main(String[] args) {

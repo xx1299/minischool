@@ -1,8 +1,6 @@
 package com.s1mple.minischool.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.s1mple.minischool.domain.Menu;
-import com.s1mple.minischool.domain.Vo.MenuVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

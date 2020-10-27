@@ -97,6 +97,19 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.6.1</version>
         </dependency>
+
+        <dependency>
+            <!--session持久化插件-->
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis</artifactId>
+            <version>3.2.3</version>
+        </dependency>
+        <dependency>
+            <!--spring shiro依赖-->
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.4.1</version>
+        </dependency>
     </dependencies>
 
     <build>

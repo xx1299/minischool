@@ -21,16 +21,8 @@ public class JwtUtils {
     private static final String sessionKey = "sessionKey";
     private static final String openid = "openid";
     private static final String state = "state";
-//    @Value("${jwt.keepTime}")
-//    private int keepTime;
-//    @Value("${jwt.Secret}")
-//    private String Secret;
-//    @Value("${jwt.userId}")
-//    private String userId;
-//    @Value("${jwt.sessionKey}")
-//    private String sessionKey;
-//    @Value("${jwt.openid}")
-//    private String openid;
+
+
 
     /**
      * 创建token
@@ -75,5 +67,7 @@ public class JwtUtils {
         }
         return false;
     }
+
+
 
 }
